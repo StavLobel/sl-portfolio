@@ -1,0 +1,40 @@
+# GitHub API Integration Standards
+
+## Security Requirements
+- Never hardcode API tokens - use environment variables only
+- Use `VITE_` prefix for frontend environment variables
+- Implement proper error handling for API failures
+- Rate limit awareness - respect GitHub API limits (5000 requests/hour for authenticated users)
+
+## Data Handling
+- Cache API responses to minimize calls
+- Implement loading states for all API calls
+- Handle edge cases (empty repos, private repos, API errors)
+- Type all API responses with TypeScript interfaces
+
+## Repository Processing Rules
+- Filter out forked repositories by default
+- Exclude repositories listed in `VITE_GITHUB_EXCLUDE_REPOS`
+- Sort repositories by last updated or stars
+- Implement technology detection based on languages + dependencies
+
+## Error Handling
+- Provide user-friendly error messages for API failures
+- Implement retry logic for transient failures
+- Handle rate limiting gracefully with appropriate user feedback
+- Log API errors for debugging
+
+## Example API Service Structure
+```typescript
+interface GitHubApiResponse<T> {
+  data: T | null;
+  isLoading: boolean;
+  error: string | null;
+}
+
+const fetchRepositories = async (): Promise<GitHubRepository[]> => {
+  // Implementation with proper error handling
+};
+```
+
+@github-service-template.ts

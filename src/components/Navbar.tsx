@@ -6,9 +6,15 @@ export const Navbar = () => {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
-    const isDark = localStorage.getItem("darkMode") === "true";
+    const savedTheme = localStorage.getItem("darkMode");
+    const isDark = savedTheme !== null ? savedTheme === "true" : true; // Default to dark mode
     setDarkMode(isDark);
     document.documentElement.classList.toggle("dark", isDark);
+    
+    // Save the default if no preference was saved
+    if (savedTheme === null) {
+      localStorage.setItem("darkMode", "true");
+    }
   }, []);
 
   const toggleDarkMode = () => {

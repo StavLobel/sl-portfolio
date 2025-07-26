@@ -1,0 +1,43 @@
+# Styling & Design Standards
+
+## Tailwind CSS Rules
+- Use Tailwind CSS classes only - no custom CSS unless absolutely necessary
+- Follow mobile-first responsive design (`sm:`, `md:`, `lg:`, `xl:`)
+- Use consistent spacing scale (4, 8, 12, 16, 20, 24, 32, etc.)
+- Leverage shadcn-ui components when possible
+
+## Color System
+- Primary accent color: Slytherin-green (#22c55e)
+- Use semantic color tokens: `text-foreground`, `bg-background`, `border-border`
+- Maintain 4.5:1 color contrast ratio for accessibility
+- Support both dark and light modes
+
+## Typography
+- Use consistent text sizing: `text-sm`, `text-base`, `text-lg`, `text-xl`, etc.
+- Apply proper heading hierarchy: `text-4xl md:text-5xl` for main headings
+- Use `font-semibold` and `font-bold` for emphasis
+- Apply `text-muted-foreground` for secondary text
+
+## Responsive Design
+- Test on mobile (375px), tablet (768px), and desktop (1024px+)
+- Use responsive utilities: `flex flex-col md:flex-row`
+- Ensure touch targets are minimum 44x44px
+- Use `container mx-auto` for content width
+
+## Component Patterns
+- Use `portfolio-card` class for consistent card styling
+- Apply hover states: `hover:bg-primary/90 transition-colors`
+- Use `btn-primary` for primary buttons
+- Implement loading states with opacity and cursor changes
+
+## Accessibility
+- Include proper ARIA labels and roles
+- Ensure keyboard navigation works
+- Use semantic HTML elements
+- Provide focus indicators
+
+## Animation Guidelines
+- Use `fade-in` class for entrance animations
+- Apply `transition-colors` for smooth state changes
+- Keep animations subtle and purposeful
+- Use `scroll-smooth` for navigation

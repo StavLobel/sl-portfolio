@@ -1,0 +1,44 @@
+# Git Workflow Standards
+
+## Commit Message Format
+Use conventional commit messages with these types:
+- `feat:` - New features
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `style:` - Code style changes (formatting, etc.)
+- `refactor:` - Code refactoring without feature changes
+- `test:` - Adding or updating tests
+- `chore:` - Build process, tooling changes
+
+## Commit Best Practices
+- Keep commits atomic (one logical change per commit)
+- Write clear, descriptive commit messages
+- Include context about why the change was made
+- Reference issue numbers when applicable
+- Test all changes locally before committing
+
+## Before Each Commit
+Run these checks:
+```bash
+npm run type-check  # TypeScript validation
+npm run lint        # ESLint checks
+npm run check-all   # Combined validation
+```
+
+## Security Rules
+- Never commit sensitive data (API keys, tokens, passwords)
+- Use `.env.local` for local environment variables
+- Add sensitive file patterns to `.gitignore`
+- Review all changes before committing
+
+## Branch Strategy
+- Work on feature branches when adding new functionality
+- Use descriptive branch names: `feature/github-integration`
+- Keep the main branch stable and deployable
+- Squash commits when merging if needed
+
+## Task Management
+- Update PROJECT_TASKS.md when completing tasks
+- Mark tasks as complete with [x] checkbox
+- Add new subtasks as they're identified
+- Keep task descriptions clear and actionable

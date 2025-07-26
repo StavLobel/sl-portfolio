@@ -1,5 +1,5 @@
 import { useInView } from "react-intersection-observer";
-import { Mail, Phone, Linkedin, ExternalLink } from "lucide-react";
+import { Mail, Phone, Linkedin, Github, ExternalLink } from "lucide-react";
 export const ContactSection = () => {
   const {
     ref,
@@ -23,6 +23,11 @@ export const ContactSection = () => {
     label: "LinkedIn",
     value: "linkedin.com/in/stavlobel",
     link: "https://linkedin.com/in/stavlobel"
+  }, {
+    icon: Github,
+    label: "GitHub",
+    value: "github.com/stavlobel",
+    link: "https://github.com/stavlobel"
   }];
   return <section id="contact" ref={ref} className="py-20 px-6">
       <div className="container mx-auto max-w-4xl">
@@ -38,7 +43,7 @@ export const ContactSection = () => {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {contactItems.map((item, index) => {
             const IconComponent = item.icon;
             return <a key={item.label} href={item.link} className={`portfolio-card group block ${inView ? "fade-in visible" : "fade-in"}`} style={{
