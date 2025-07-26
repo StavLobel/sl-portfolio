@@ -21,7 +21,6 @@ export const useLinkedInProfile = (): ApiResponse<string> => {
         
         // If primary method fails, try alternative
         if (result.error || !result.data || result.data.includes('placeholder')) {
-          console.log('Primary LinkedIn fetch failed, trying alternative method...');
           result = await linkedinService.fetchProfilePictureAlternative();
         }
 

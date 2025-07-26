@@ -11,12 +11,15 @@ interface LinkedInProfile {
 class LinkedInService {
   private linkedinUrl: string;
   private fallbackImage: string;
+  private manualProfilePicUrl: string | null;
 
   constructor() {
     // Use environment variable or fallback to default
     this.linkedinUrl = import.meta.env.VITE_LINKEDIN_PROFILE_URL || 'https://www.linkedin.com/in/stavlobel/';
-    // Use a better fallback - Gravatar or a placeholder service
-    this.fallbackImage = `https://ui-avatars.com/api/?name=Stav+Lobel&background=0ea5e9&color=fff&size=320&bold=true`;
+    // Manual LinkedIn profile picture URL (you can set this in .env.local)
+    this.manualProfilePicUrl = import.meta.env.VITE_LINKEDIN_PROFILE_PIC_URL || null;
+    // Use a better fallback - UI Avatars with portfolio theme colors
+    this.fallbackImage = `https://ui-avatars.com/api/?name=Stav+Lobel&background=10b981&color=ffffff&size=320&bold=true&font-size=0.4`;
   }
 
   /**
@@ -26,13 +29,24 @@ class LinkedInService {
    */
   async fetchProfilePicture(): Promise<ApiResponse<string>> {
     try {
+      // Method 0: Check if manual profile picture URL is provided
+      if (this.manualProfilePicUrl) {
+        return {
+          data: this.manualProfilePicUrl,
+          isLoading: false,
+          error: null
+        };
+      }
+
       // Method 1: Try using a public LinkedIn profile picture service
       const profileId = this.extractProfileId();
+      
       if (profileId) {
         const directUrl = `https://media.licdn.com/dms/image/${profileId}/profile-displayphoto-shrink_800_800/0/0?e=1234567890&v=beta&t=your-token`;
         
         // Test if the image is accessible
         const imageResponse = await fetch(directUrl, { method: 'HEAD' });
+        
         if (imageResponse.ok) {
           return {
             data: directUrl,
@@ -75,8 +89,6 @@ class LinkedInService {
       };
 
     } catch (error) {
-      console.warn('Failed to fetch LinkedIn profile picture:', error);
-      
       // Return fallback image on error
       return {
         data: this.fallbackImage,
@@ -140,7 +152,6 @@ class LinkedInService {
       };
 
     } catch (error) {
-      console.warn('Alternative LinkedIn fetch failed:', error);
       return {
         data: this.fallbackImage,
         isLoading: false,
@@ -161,6 +172,13 @@ class LinkedInService {
    */
   updateLinkedInUrl(url: string): void {
     this.linkedinUrl = url;
+  }
+
+  /**
+   * Set manual profile picture URL
+   */
+  setManualProfilePicUrl(url: string): void {
+    this.manualProfilePicUrl = url;
   }
 }
 
