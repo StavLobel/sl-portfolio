@@ -51,12 +51,13 @@ jobs:
           cd /var/www/portfolio
           
           # Backup current version
-          if [ -d "current" ]; then
-            mv current backup-$(date +%Y%m%d-%H%M%S)
+          if [ -d "live" ]; then
+            mkdir -p backups
+            cp -r live backups/backup-$(date +%Y%m%d-%H%M%S)
           fi
           
           # Create new deployment directory
-          mkdir -p current
+          mkdir -p temp
           
     - name: Upload files to VPS
       uses: appleboy/scp-action@v0.1.7
@@ -66,7 +67,7 @@ jobs:
         key: ${{ secrets.VPS_SSH_KEY }}
         port: ${{ secrets.VPS_PORT }}
         source: "dist/*"
-        target: "/var/www/portfolio/current"
+        target: "/var/www/portfolio/temp"
         strip_components: 1
         
     - name: Finalize deployment
@@ -79,13 +80,13 @@ jobs:
         script: |
           cd /var/www/portfolio
           
-          # Update symlink to point to new version
-          rm -f live
-          ln -s current live
+          # Replace current deployment
+          rm -rf live
+          mv temp live
           
           # Set proper permissions
-          chown -R stavlobel:stavlobel /var/www/portfolio
-          chmod -R 755 /var/www/portfolio/live
+          sudo chown -R stavlobel:stavlobel /var/www/portfolio
+          chmod -R 755 live
           
           # Restart Nginx
           sudo systemctl reload nginx
@@ -94,6 +95,6 @@ jobs:
           # pm2 start /var/www/portfolio/live/server.js --name portfolio
           
           # Clean up old backups (keep last 3)
-          ls -t backup-* | tail -n +4 | xargs rm -rf || true
+          ls -t backups/backup-* 2>/dev/null | tail -n +4 | xargs rm -rf || true
           
           echo "Deployment completed successfully!" 
