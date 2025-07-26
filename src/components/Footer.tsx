@@ -1,3 +1,5 @@
+import packageJson from '../../package.json';
+
 export const Footer = () => {
   return (
     <footer className="py-8 px-6 border-t border-border bg-muted/50">
@@ -11,6 +13,9 @@ export const Footer = () => {
           </p>
           <p className="text-xs text-muted-foreground">
             Built with React, TypeScript, and Tailwind CSS
+          </p>
+          <p className="text-xs text-muted-foreground/70">
+            v{packageJson.version}
           </p>
         </div>
       </div>
