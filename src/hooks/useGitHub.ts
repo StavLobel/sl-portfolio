@@ -39,6 +39,7 @@ export const useGitHubRepositories = (): ApiResponse<Project[]> => {
                 liveUrl: repo.homepage || undefined,
                 featured: repo.stargazers_count > 5, // Auto-feature repos with 5+ stars
                 lastUpdated: repo.updated_at,
+                createdAt: repo.created_at, // Add creation date for sorting
               };
             } catch (error) {
               console.warn(`Failed to fetch languages for ${repo.name}:`, error);
@@ -51,16 +52,17 @@ export const useGitHubRepositories = (): ApiResponse<Project[]> => {
                 liveUrl: repo.homepage || undefined,
                 featured: false,
                 lastUpdated: repo.updated_at,
+                createdAt: repo.created_at, // Add creation date for sorting
               };
             }
           })
         );
 
-        // Sort by featured status, then by last updated
+        // Sort by featured status first, then by creation date (newest first)
         projects.sort((a, b) => {
           if (a.featured && !b.featured) return -1;
           if (!a.featured && b.featured) return 1;
-          return new Date(b.lastUpdated).getTime() - new Date(a.lastUpdated).getTime();
+          return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         });
 
         if (isMounted) {

@@ -51,6 +51,7 @@ export interface Project {
   liveUrl?: string;
   featured: boolean;
   lastUpdated: string;
+  createdAt: string;
 }
 
 export interface Technology {
