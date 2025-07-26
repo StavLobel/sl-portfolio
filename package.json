@@ -14,7 +14,8 @@
     "preview": "vite preview",
     "version:patch": "npm version patch && git push origin main && git push origin --tags",
     "version:minor": "npm version minor && git push origin main && git push origin --tags",
-    "version:major": "npm version major && git push origin main && git push origin --tags"
+    "version:major": "npm version major && git push origin main && git push origin --tags",
+    "deploy:vps": "./scripts/deploy-vps.sh"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",

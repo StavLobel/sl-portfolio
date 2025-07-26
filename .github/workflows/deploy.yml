@@ -1,4 +1,4 @@
-name: Deploy to Hostinger
+name: Deploy to VPS
 
 on:
   push:
@@ -35,18 +35,65 @@ jobs:
         VITE_GITHUB_EXCLUDE_REPOS: ${{ secrets.VITE_GITHUB_EXCLUDE_REPOS }}
         VITE_LINKEDIN_PROFILE_PIC_URL: ${{ secrets.VITE_LINKEDIN_PROFILE_PIC_URL }}
         
-    - name: Deploy to Hostinger via FTP
-      uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+    - name: Deploy to VPS
+      uses: appleboy/ssh-action@v1.0.3
       with:
-        server: ${{ secrets.FTP_SERVER }}
-        username: ${{ secrets.FTP_USERNAME }}
-        password: ${{ secrets.FTP_PASSWORD }}
-        local-dir: ./dist/
-        server-dir: ./public_html/
-        exclude: |
-          **/.git*
-          **/.git*/**
-          **/node_modules/**
-          .gitignore
-          package*.json
-          *.md 
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        port: ${{ secrets.VPS_PORT }}
+        script: |
+          # Stop any running processes
+          pm2 stop portfolio || true
+          pm2 delete portfolio || true
+          
+          # Navigate to app directory
+          cd /var/www/portfolio
+          
+          # Backup current version
+          if [ -d "current" ]; then
+            mv current backup-$(date +%Y%m%d-%H%M%S)
+          fi
+          
+          # Create new deployment directory
+          mkdir -p current
+          
+    - name: Upload files to VPS
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        port: ${{ secrets.VPS_PORT }}
+        source: "dist/*"
+        target: "/var/www/portfolio/current"
+        strip_components: 1
+        
+    - name: Finalize deployment
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        port: ${{ secrets.VPS_PORT }}
+        script: |
+          cd /var/www/portfolio
+          
+          # Update symlink to point to new version
+          rm -f live
+          ln -s current live
+          
+          # Set proper permissions
+          chown -R stavlobel:stavlobel /var/www/portfolio
+          chmod -R 755 /var/www/portfolio/live
+          
+          # Restart Nginx
+          sudo systemctl reload nginx
+          
+          # Start PM2 process (if using Node.js server)
+          # pm2 start /var/www/portfolio/live/server.js --name portfolio
+          
+          # Clean up old backups (keep last 3)
+          ls -t backup-* | tail -n +4 | xargs rm -rf || true
+          
+          echo "Deployment completed successfully!" 
