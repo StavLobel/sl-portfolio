@@ -10,13 +10,14 @@ A modern, responsive personal portfolio website showcasing projects, skills, and
 - **Technology Detection**: Smart badge generation based on repository languages
 - **Smooth Animations**: Fade-ins, transitions, and smooth scrolling
 - **Modern UI**: Clean, futuristic design with Slytherin-green accents
+- **Automated Deployment**: GitHub Actions CI/CD pipeline
 
 ## 🛠️ Tech Stack
 
 - **Frontend**: React 18, TypeScript, Vite
 - **Styling**: Tailwind CSS, shadcn-ui components
 - **API**: GitHub REST API integration
-- **Deployment**: Docker, GitHub Actions, Hostinger VPS
+- **Deployment**: GitHub Actions, VPS (Nginx, PM2)
 
 ## 📋 Prerequisites
 
@@ -27,7 +28,7 @@ A modern, responsive personal portfolio website showcasing projects, skills, and
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/StavLobel/sl-portfolio.git
    cd sl-portfolio
    ```
 
@@ -37,9 +38,12 @@ A modern, responsive personal portfolio website showcasing projects, skills, and
    ```
 
 3. **Set up environment variables**
+   Create a `.env.local` file with:
    ```bash
-   cp .env.example .env.local
-   # Add your GitHub Personal Access Token
+   VITE_GITHUB_USERNAME=your_github_username
+   VITE_GITHUB_TOKEN=your_github_token
+   VITE_GITHUB_EXCLUDE_REPOS=.github,dotfiles
+   VITE_LINKEDIN_PROFILE_PIC_URL=your_linkedin_pic_url
    ```
 
 4. **Start development server**
@@ -48,7 +52,7 @@ A modern, responsive personal portfolio website showcasing projects, skills, and
    ```
 
 5. **Open your browser**
-   Navigate to `http://localhost:5173`
+   Navigate to `http://localhost:8080`
 
 ## 🔧 Development
 
@@ -56,10 +60,35 @@ A modern, responsive personal portfolio website showcasing projects, skills, and
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build
 - `npm run lint` - Run ESLint
+- `npm run lint:fix` - Fix linting issues
+- `npm run type-check` - Run TypeScript validation
+- `npm run check-all` - Run type-check and lint
 
 ## 📦 Deployment
 
-The project uses GitHub Actions for automated deployment to a Hostinger VPS via Docker Compose.
+The project uses GitHub Actions for automated deployment to a VPS when pushing to the `prod` branch.
+
+### Deployment Process:
+1. Make changes on `main` branch
+2. Test locally with `npm run dev`
+3. Push to `prod` branch:
+   ```bash
+   git checkout prod
+   git merge main
+   git push origin prod
+   ```
+4. GitHub Actions automatically deploys to VPS
+
+### Manual Deployment:
+Use the included script for manual deployment:
+```bash
+./scripts/deploy-vps.sh YOUR_SERVER_IP [username]
+```
+
+## 🌐 Live Site
+
+- **Production**: https://stavlobel.com
+- **Development**: http://localhost:8080
 
 ## 📄 License
 
