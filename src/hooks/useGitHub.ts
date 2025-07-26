@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { GitHubRepository, Project, ApiResponse } from '@/types';
+import { Project, ApiResponse } from '@/types';
 import GitHubApiService from '@/services/github';
 
 const githubService = new GitHubApiService();
@@ -42,7 +42,6 @@ export const useGitHubRepositories = (): ApiResponse<Project[]> => {
                 createdAt: repo.created_at, // Add creation date for sorting
               };
             } catch (error) {
-              console.warn(`Failed to fetch languages for ${repo.name}:`, error);
               return {
                 id: repo.id.toString(),
                 name: repo.name,

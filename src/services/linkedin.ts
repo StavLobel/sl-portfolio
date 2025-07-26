@@ -1,12 +1,7 @@
 // LinkedIn Profile Service - Following Project Standards
 import { ApiResponse } from '@/types';
 
-interface LinkedInProfile {
-  profilePicture: string;
-  name: string;
-  headline?: string;
-  location?: string;
-}
+
 
 class LinkedInService {
   private linkedinUrl: string;
@@ -102,7 +97,7 @@ class LinkedInService {
    * Extract LinkedIn profile ID from URL
    */
   private extractProfileId(): string | null {
-    const match = this.linkedinUrl.match(/linkedin\.com\/in\/([^\/\?]+)/);
+    const match = this.linkedinUrl.match(/linkedin\.com\/in\/([^/?]+)/);
     return match ? match[1] : null;
   }
 

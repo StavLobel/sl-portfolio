@@ -1,5 +1,5 @@
 // GitHub API Service - Following Project Standards
-import { GitHubRepository, GitHubLanguages, ApiResponse } from '@/types';
+import { GitHubRepository, GitHubLanguages } from '@/types';
 
 class GitHubApiService {
   private baseUrl = 'https://api.github.com';
@@ -13,7 +13,7 @@ class GitHubApiService {
     this.excludedRepos = import.meta.env.VITE_GITHUB_EXCLUDE_REPOS?.split(',') || [];
     
     if (!this.token || !this.username) {
-      console.warn('GitHub token and username must be provided via environment variables');
+      throw new Error('GitHub token and username must be provided via environment variables');
     }
   }
 
@@ -43,7 +43,6 @@ class GitHubApiService {
 
       return await response.json();
     } catch (error) {
-      console.error('GitHub API request failed:', error);
       throw error;
     }
   }
@@ -73,7 +72,6 @@ class GitHubApiService {
         `/repos/${repo.full_name}/languages`
       );
     } catch (error) {
-      console.warn(`Failed to fetch languages for ${repo.name}:`, error);
       return {};
     }
   }

@@ -8,7 +8,7 @@ export const HeroSection = () => {
     triggerOnce: true,
   });
 
-  const { data: linkedinProfilePic, isLoading: isLinkedInLoading, error: linkedinError } = useLinkedInProfile();
+  const { data: linkedinProfilePic, isLoading: isLinkedInLoading } = useLinkedInProfile();
 
   // Use LinkedIn profile picture if available, otherwise fallback to initials
   const profileImageSrc = linkedinProfilePic || 'https://ui-avatars.com/api/?name=Stav+Lobel&background=10b981&color=ffffff&size=320&bold=true&font-size=0.4';
