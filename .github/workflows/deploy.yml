@@ -97,4 +97,4 @@ jobs:
           # Clean up old backups (keep last 3)
           ls -t backups/backup-* 2>/dev/null | tail -n +4 | xargs rm -rf || true
           
-          echo "Deployment completed successfully!" 
+          echo "Deployment completed successfully!"
