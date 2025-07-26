@@ -19,16 +19,12 @@ export const useGitHubRepositories = (): ApiResponse<Project[]> => {
 
         const repos = await githubService.fetchRepositories();
         
-        // Convert GitHub repositories to Project format with technology detection
+        // Convert GitHub repositories to Project format with badge extraction
         const projects: Project[] = await Promise.all(
           repos.map(async (repo) => {
             try {
-              const languages = await githubService.fetchRepositoryLanguages(repo);
-              const technologies = githubService.detectTechnologies(
-                languages, 
-                repo.name, 
-                repo.description || undefined
-              );
+              // Use the new badge extraction method
+              const technologies = await githubService.fetchRepositoryBadges(repo);
 
               return {
                 id: repo.id.toString(),
@@ -42,6 +38,7 @@ export const useGitHubRepositories = (): ApiResponse<Project[]> => {
                 createdAt: repo.created_at, // Add creation date for sorting
               };
             } catch {
+              // Fallback to basic language detection on error
               return {
                 id: repo.id.toString(),
                 name: repo.name,

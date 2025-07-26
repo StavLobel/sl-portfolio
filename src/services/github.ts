@@ -1,5 +1,5 @@
 // GitHub API Service - Following Project Standards
-import { GitHubRepository, GitHubLanguages } from '@/types';
+import { GitHubRepository, GitHubLanguages, Badge } from '@/types';
 
 class GitHubApiService {
   private baseUrl = 'https://api.github.com';
@@ -72,6 +72,129 @@ class GitHubApiService {
     }
   }
 
+  async fetchRepositoryReadme(repo: GitHubRepository): Promise<string | null> {
+    try {
+      const response = await this.makeRequest<{ content: string; encoding: string }>(
+        `/repos/${repo.full_name}/readme`
+      );
+      
+      if (response.encoding === 'base64') {
+        return atob(response.content);
+      }
+      
+      return response.content;
+    } catch {
+      return null;
+    }
+  }
+
+  extractBadgesFromReadme(readmeContent: string): Badge[] {
+    if (!readmeContent) return [];
+
+    // Regex to match markdown badges: [![text](shield_url)](link_url)
+    const badgeRegex = /\[\!\[([^\]]+)\]\(([^)]+)\)\]\(([^)]+)\)/g;
+    // Also match simple badges: ![text](shield_url)
+    const simpleBadgeRegex = /\!\[([^\]]+)\]\(https:\/\/img\.shields\.io\/badge\/[^)]+\)/g;
+    
+    const badges: Badge[] = [];
+    const processedTexts = new Set<string>();
+
+    // Extract full badges with links
+    let match;
+    while ((match = badgeRegex.exec(readmeContent)) !== null) {
+      const [, text, shieldUrl, linkUrl] = match;
+      
+      if (!processedTexts.has(text)) {
+        badges.push({
+          text: text.trim(),
+          color: this.extractColorFromShieldUrl(shieldUrl),
+          url: linkUrl
+        });
+        processedTexts.add(text);
+      }
+    }
+
+    // Extract simple badges without links
+    while ((match = simpleBadgeRegex.exec(readmeContent)) !== null) {
+      const [fullMatch, text] = match;
+      
+      if (!processedTexts.has(text)) {
+        badges.push({
+          text: text.trim(),
+          color: this.extractColorFromShieldUrl(fullMatch),
+          url: undefined
+        });
+        processedTexts.add(text);
+      }
+    }
+
+    // Limit to reasonable number and filter out generic badges
+    return badges
+      .filter(badge => 
+        !badge.text.toLowerCase().includes('license') ||
+        !badge.text.toLowerCase().includes('build') ||
+        badge.text.length > 2
+      )
+      .slice(0, 8);
+  }
+
+  private extractColorFromShieldUrl(url: string): string {
+    // Extract color from shields.io URL patterns
+    const colorMatch = url.match(/(?:color=|-)([a-fA-F0-9]{6}|[a-zA-Z]+)(?:&|$|\))/);
+    if (colorMatch) {
+      const color = colorMatch[1];
+      // Convert named colors to hex
+      const colorMap: Record<string, string> = {
+        'blue': '#007ec6',
+        'green': '#4c1',
+        'red': '#e05d44',
+        'orange': '#fe7d37',
+        'yellow': '#dfb317',
+        'brightgreen': '#4c1',
+        'lightgrey': '#9f9f9f',
+        'success': '#4c1',
+        'important': '#fe7d37',
+        'critical': '#e05d44'
+      };
+      return colorMap[color.toLowerCase()] || `#${color}`;
+    }
+    
+    // Default colors based on common patterns
+    if (url.includes('python')) return '#3776ab';
+    if (url.includes('javascript') || url.includes('node')) return '#f7df1e';
+    if (url.includes('typescript')) return '#007acc';
+    if (url.includes('react')) return '#61dafb';
+    if (url.includes('vue')) return '#4fc08d';
+    if (url.includes('java')) return '#ed8b00';
+    if (url.includes('docker')) return '#2496ed';
+    
+    return '#007ec6'; // Default blue
+  }
+
+  async fetchRepositoryBadges(repo: GitHubRepository): Promise<string[]> {
+    try {
+      const readmeContent = await this.fetchRepositoryReadme(repo);
+      if (!readmeContent) {
+        // Fallback to language detection if no README
+        const languages = await this.fetchRepositoryLanguages(repo);
+        return this.detectTechnologies(languages, repo.name, repo.description || undefined);
+      }
+
+      const badges = this.extractBadgesFromReadme(readmeContent);
+      if (badges.length > 0) {
+        return badges.map(badge => badge.text);
+      }
+
+      // Fallback to language detection if no badges found
+      const languages = await this.fetchRepositoryLanguages(repo);
+      return this.detectTechnologies(languages, repo.name, repo.description || undefined);
+    } catch {
+      // Fallback to language detection on error
+      const languages = await this.fetchRepositoryLanguages(repo);
+      return this.detectTechnologies(languages, repo.name, repo.description || undefined);
+    }
+  }
+
   async fetchUserProfile() {
     try {
       return await this.makeRequest(`/users/${this.username}`);
@@ -80,7 +203,7 @@ class GitHubApiService {
     }
   }
 
-  // Technology detection based on languages and common patterns
+  // Technology detection based on languages and common patterns (fallback method)
   detectTechnologies(languages: GitHubLanguages, repoName: string, description?: string): string[] {
     const technologies: Set<string> = new Set();
     

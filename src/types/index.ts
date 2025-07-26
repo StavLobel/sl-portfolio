@@ -41,6 +41,13 @@ export interface GitHubUser {
   following: number;
 }
 
+// Badge Types for README extraction
+export interface Badge {
+  text: string;
+  color: string;
+  url?: string;
+}
+
 // Project Types
 export interface Project {
   id: string;
