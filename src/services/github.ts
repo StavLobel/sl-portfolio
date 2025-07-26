@@ -131,8 +131,8 @@ class GitHubApiService {
     // Limit to reasonable number and filter out generic badges
     return badges
       .filter(badge => 
-        !badge.text.toLowerCase().includes('license') ||
-        !badge.text.toLowerCase().includes('build') ||
+        !badge.text.toLowerCase().includes('license') &&
+        !badge.text.toLowerCase().includes('build') &&
         badge.text.length > 2
       )
       .slice(0, 8);
