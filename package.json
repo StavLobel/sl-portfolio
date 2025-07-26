@@ -12,6 +12,7 @@
     "clean": "rm -rf dist",
     "check-all": "npm run type-check && npm run lint",
     "preview": "vite preview",
+    "deploy": "node scripts/deploy.js",
     "version:patch": "npm version patch && git push origin main && git push origin --tags",
     "version:minor": "npm version minor && git push origin main && git push origin --tags",
     "version:major": "npm version major && git push origin main && git push origin --tags"
