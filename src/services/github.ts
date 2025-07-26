@@ -92,9 +92,9 @@ class GitHubApiService {
     if (!readmeContent) return [];
 
     // Regex to match markdown badges: [![text](shield_url)](link_url)
-    const badgeRegex = /\[\!\[([^\]]+)\]\(([^)]+)\)\]\(([^)]+)\)/g;
+    const badgeRegex = /\[!\[([^\]]+)\]\(([^)]+)\)\]\(([^)]+)\)/g;
     // Also match simple badges: ![text](shield_url)
-    const simpleBadgeRegex = /\!\[([^\]]+)\]\(https:\/\/img\.shields\.io\/badge\/[^)]+\)/g;
+    const simpleBadgeRegex = /!\[([^\]]+)\]\(https:\/\/img\.shields\.io\/badge\/[^)]+\)/g;
     
     const badges: Badge[] = [];
     const processedTexts = new Set<string>();
