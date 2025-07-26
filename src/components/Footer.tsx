@@ -11,9 +11,6 @@ export const Footer = () => {
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} Stav Lobel. All rights reserved.
           </p>
-          <p className="text-xs text-muted-foreground">
-            Built with React, TypeScript, and Tailwind CSS
-          </p>
           <p className="text-xs text-muted-foreground/70">
             v{packageJson.version}
           </p>
