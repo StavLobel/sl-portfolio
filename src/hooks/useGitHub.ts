@@ -41,7 +41,7 @@ export const useGitHubRepositories = (): ApiResponse<Project[]> => {
                 lastUpdated: repo.updated_at,
                 createdAt: repo.created_at, // Add creation date for sorting
               };
-            } catch (error) {
+            } catch {
               return {
                 id: repo.id.toString(),
                 name: repo.name,

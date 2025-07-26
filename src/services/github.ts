@@ -18,33 +18,29 @@ class GitHubApiService {
   }
 
   private async makeRequest<T>(endpoint: string): Promise<T> {
-    try {
-      const headers: Record<string, string> = {
-        'Accept': 'application/vnd.github.v3+json',
-      };
+    const headers: Record<string, string> = {
+      'Accept': 'application/vnd.github.v3+json',
+    };
 
-      if (this.token) {
-        headers['Authorization'] = `Bearer ${this.token}`;
-      }
-
-      const response = await fetch(`${this.baseUrl}${endpoint}`, { headers });
-
-      if (!response.ok) {
-        if (response.status === 403) {
-          const rateLimitReset = response.headers.get('X-RateLimit-Reset');
-          const resetTime = rateLimitReset ? new Date(parseInt(rateLimitReset) * 1000).toLocaleTimeString() : 'unknown';
-          throw new Error(`Rate limit exceeded. Resets at ${resetTime}. Consider using a GitHub token for higher limits.`);
-        }
-        if (response.status === 401) {
-          throw new Error('Invalid GitHub token. Please check your VITE_GITHUB_TOKEN environment variable.');
-        }
-        throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      throw error;
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`;
     }
+
+    const response = await fetch(`${this.baseUrl}${endpoint}`, { headers });
+
+    if (!response.ok) {
+      if (response.status === 403) {
+        const rateLimitReset = response.headers.get('X-RateLimit-Reset');
+        const resetTime = rateLimitReset ? new Date(parseInt(rateLimitReset) * 1000).toLocaleTimeString() : 'unknown';
+        throw new Error(`Rate limit exceeded. Resets at ${resetTime}. Consider using a GitHub token for higher limits.`);
+      }
+      if (response.status === 401) {
+        throw new Error('Invalid GitHub token. Please check your VITE_GITHUB_TOKEN environment variable.');
+      }
+      throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
+    }
+
+    return await response.json();
   }
 
   async fetchRepositories(): Promise<GitHubRepository[]> {
@@ -71,7 +67,7 @@ class GitHubApiService {
       return await this.makeRequest<GitHubLanguages>(
         `/repos/${repo.full_name}/languages`
       );
-    } catch (error) {
+    } catch {
       return {};
     }
   }
