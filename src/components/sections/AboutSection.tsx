@@ -1,14 +1,11 @@
 import { useInView } from "react-intersection-observer";
-import { Download, FileText, MapPin, Building } from "lucide-react";
-import { useLinkedInProfile } from "@/hooks/useLinkedInProfile";
+import { Download, FileText } from "lucide-react";
 
 export const AboutSection = () => {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
-
-  const { data: linkedinProfile, isLoading: isLinkedInLoading } = useLinkedInProfile();
 
   const handleDownloadResume = (format: 'pdf' | 'txt') => {
     const link = document.createElement('a');
@@ -39,20 +36,6 @@ export const AboutSection = () => {
 
           <div className="portfolio-card max-w-3xl mx-auto">
             <div className="space-y-6">
-              {/* LinkedIn Profile Info */}
-              {!isLinkedInLoading && linkedinProfile && (
-                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-muted-foreground mb-6">
-                  <div className="flex items-center gap-2">
-                    <Building className="w-4 h-4" />
-                    <span>{linkedinProfile.company}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <MapPin className="w-4 h-4" />
-                    <span>{linkedinProfile.location}</span>
-                  </div>
-                </div>
-              )}
-
               <p className="text-lg leading-relaxed text-muted-foreground">
                 I'm Stav Lobel, a Software Engineer with strong technical skills and a solid foundation 
                 in object-oriented programming, clean architecture, and scalable system design. My journey 
@@ -68,11 +51,11 @@ export const AboutSection = () => {
               </p>
 
               <p className="text-lg leading-relaxed text-muted-foreground">
-                When I'm not immersed in code, you'll find me contributing to open-source projects, 
-                mentoring fellow developers, or exploring emerging technologies. I believe in the 
-                power of continuous learning and sharing knowledge within the developer community. 
-                Every challenge is an opportunity to grow, and every project is a chance to make 
-                a meaningful impact.
+                When I'm not developing automation solutions, you'll find me exploring artificial 
+                intelligence and machine learning technologies, contributing to innovative projects, 
+                and staying at the forefront of industry trends. I'm passionate about leveraging 
+                technology to solve real-world problems and am always eager to take on new challenges 
+                that push the boundaries of what's possible.
               </p>
 
               <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">

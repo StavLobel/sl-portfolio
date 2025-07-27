@@ -59,9 +59,9 @@ export const HeroSection = () => {
             </div>
             
             <p className="text-lg text-muted-foreground max-w-lg">
-              I transform complex problems into elegant, scalable solutions. 
-              With expertise in software engineering and emerging technologies, 
-              I build intelligent systems that drive innovation and efficiency.
+              I develop cutting-edge automation solutions and intelligent systems for complex 
+              engineering challenges. With a passion for innovation and clean code architecture, 
+              I bridge the gap between advanced technology and practical business solutions.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">

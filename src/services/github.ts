@@ -3,17 +3,21 @@ import { GitHubRepository, GitHubLanguages, Badge } from '@/types';
 
 class GitHubApiService {
   private baseUrl = 'https://api.github.com';
-  private token: string;
+  private token: string | null;
   private username: string;
   private excludedRepos: string[];
+  private isConfigured: boolean;
 
   constructor() {
-    this.token = import.meta.env.VITE_GITHUB_TOKEN;
-    this.username = import.meta.env.VITE_GITHUB_USERNAME;
+    this.token = import.meta.env.VITE_GITHUB_TOKEN || null;
+    this.username = import.meta.env.VITE_GITHUB_USERNAME || 'StavLobel';
     this.excludedRepos = import.meta.env.VITE_GITHUB_EXCLUDE_REPOS?.split(',') || [];
     
-    if (!this.token || !this.username) {
-      throw new Error('GitHub token and username must be provided via environment variables');
+    // Mark as configured if we have the required token
+    this.isConfigured = !!this.token;
+    
+    if (!this.isConfigured) {
+      console.warn('GitHub token not provided. API calls will be rate-limited. Set VITE_GITHUB_TOKEN for higher limits.');
     }
   }
 
@@ -58,7 +62,8 @@ class GitHubApiService {
         !repo.disabled
       );
     } catch (error) {
-      throw new Error(`Failed to fetch repositories: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error('Failed to fetch repositories:', error);
+      return []; // Return empty array instead of throwing
     }
   }
 
@@ -199,7 +204,8 @@ class GitHubApiService {
     try {
       return await this.makeRequest(`/users/${this.username}`);
     } catch (error) {
-      throw new Error(`Failed to fetch user profile: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      console.error('Failed to fetch user profile:', error);
+      return null; // Return null instead of throwing
     }
   }
 
@@ -270,6 +276,11 @@ class GitHubApiService {
     if (content.includes('k8s') || content.includes('kubernetes')) technologies.add('Kubernetes');
 
     return Array.from(technologies).slice(0, 6); // Limit to 6 technologies
+  }
+
+  // Helper method to check if service is properly configured
+  isReady(): boolean {
+    return this.isConfigured;
   }
 }
 
