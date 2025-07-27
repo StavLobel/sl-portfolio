@@ -151,7 +151,7 @@ class GitHubApiService {
       'aws', 'azure', 'gcp', 'docker', 'kubernetes', 'terraform', 'ansible', 'jenkins', 'gitlab', 'github actions', 'circleci', 'travis', 'heroku', 'vercel', 'netlify', 'cloudflare', 'digitalocean', 'vagrant',
       
       // Testing Frameworks
-      'pytest', 'jest', 'mocha', 'chai', 'jasmine', 'cypress', 'selenium', 'playwright', 'puppeteer', 'junit', 'testng', 'rspec', 'phpunit', 'karma', 'protractor', 'webdriver',
+      'pytest', 'jest', 'mocha', 'chai', 'jasmine', 'cypress', 'selenium', 'playwright', 'puppeteer', 'junit', 'testng', 'rspec', 'phpunit', 'karma', 'protractor', 'webdriver', 'allure', 'allure-pytest', 'allure-reports',
       
       // Mobile Development
       'react native', 'flutter', 'ionic', 'xamarin', 'cordova', 'phonegap', 'titanium', 'nativescript',
@@ -182,38 +182,73 @@ class GitHubApiService {
     const filteredBadges = badges.filter(badge => {
       const text = badge.text.toLowerCase();
       
-      // Exclude common non-technology badges
+      // More specific exclusion patterns - avoid overly broad terms
       const excludePatterns = [
-        'license', 'build', 'status', 'test', 'tests', 'testing', 'coverage', 'quality', 'style', 
-        'commit', 'pre-commit', 'workflow', 'action', 'deployment', 'deploy', 'release', 
-        'version', 'downloads', 'stars', 'forks', 'issues', 'pull request', 'pr', 'ci', 'cd',
-        'pipeline', 'automated', 'automation', 'check', 'lint', 'format', 'docs', 'documentation',
-        'security', 'vulnerability', 'audit', 'compliance', 'maintained', 'maintenance',
-        'stable', 'beta', 'alpha', 'experimental', 'deprecated', 'archived'
+        'license', 'mit license', 'apache license', 'gpl license',
+        'build status', 'build passing', 'build failing', 'build unknown',
+        'test status', 'tests passing', 'tests failing', 'test coverage',
+        'code coverage', 'code quality score',
+        'code style', 'code format', 'code lint',
+        'pre-commit hooks', 'pre-commit.ci',
+        'workflow status', 'deployment status', 'deploy status',
+        'version badge', 'release version', 'latest release',
+        'download count', 'downloads', 'npm downloads',
+        'stars count', 'github stars', 'forks count', 'github forks',
+        'open issues', 'closed issues', 'pull requests',
+        'pipeline status', 'ci status', 'cd status',
+        'security score', 'vulnerability scan', 'audit results',
+        'maintenance status', 'maintained', 'unmaintained',
+        'stability', 'stable release', 'beta release', 'alpha release',
+        'experimental', 'deprecated', 'archived'
       ];
       
-      // Check if badge contains excluded patterns
-      const isExcluded = excludePatterns.some(pattern => text.includes(pattern));
+      // Check if badge text exactly matches or contains excluded patterns
+      const isExcluded = excludePatterns.some(pattern => {
+        return text === pattern || text.includes(pattern);
+      });
       if (isExcluded) return false;
       
-      // Check if badge matches technology keywords
+      // Check if badge matches technology keywords with better matching
       const isTechnology = technologyKeywords.some(tech => {
+        const techLower = tech.toLowerCase();
+        
+        // Exact match
+        if (text === techLower) return true;
+        
         // Handle variations like "Node.js" vs "nodejs", "React Native" vs "react-native"
-        const normalizedTech = tech.replace(/[.\s-]/g, '');
+        const normalizedTech = techLower.replace(/[.\s-]/g, '');
         const normalizedText = text.replace(/[.\s-]/g, '');
-        return normalizedText.includes(normalizedTech) || normalizedTech.includes(normalizedText);
+        
+        // Check if normalized versions match
+        if (normalizedText === normalizedTech) return true;
+        
+        // For compound technologies like "GitHub Actions", check if the full text contains the technology
+        if (techLower.includes(' ') && text.includes(techLower)) return true;
+        
+        // Check if text starts with or ends with the technology name
+        if (text.startsWith(techLower) || text.endsWith(techLower)) return true;
+        if (normalizedText.startsWith(normalizedTech) || normalizedText.endsWith(normalizedTech)) return true;
+        
+        return false;
       });
       
-      // Also include badges that are clearly version numbers or programming languages
-      const isVersionOrLang = /^(v?\d+\.\d+|[a-z]+\s*(v?\d+)?|\w+\s*\d+(\.\d+)*)$/i.test(text);
+      // Also include common technology patterns that might not be in our whitelist
+      const commonTechPatterns = [
+        /^[a-z]+\s*v?\d+(\.\d+)*$/i,  // Technology with version like "Python 3.8"
+        /^v?\d+\.\d+(\.\d+)?$/,       // Version numbers like "3.8.1"
+        /^\w+\s*(framework|library|tool|sdk|api)$/i, // Technology type indicators
+        /^(python|node|java|go|rust|php|ruby)\s/i   // Common language prefixes
+      ];
       
-      return isTechnology || isVersionOrLang;
+      const matchesTechPattern = commonTechPatterns.some(pattern => pattern.test(text));
+      
+      return isTechnology || matchesTechPattern;
     });
 
     // Limit to reasonable number and ensure minimum length
     return filteredBadges
       .filter(badge => badge.text.length > 1)
-      .slice(0, 8);
+      .slice(0, 10); // Increased from 8 to 10 to show more technologies
   }
 
   private extractColorFromShieldUrl(url: string): string {
