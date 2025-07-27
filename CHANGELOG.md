@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.1] - 2025-07-27
+
+### 🐛 **Bug Fixes**
+
+**Profile Picture Display Issue Resolved**
+
+### Fixed
+- **Profile picture not displaying**: Resolved blank profile image on website caused by failing LinkedIn API integration
+- **Simplified image loading**: Replaced complex LinkedIn API calls with reliable fallback system
+- **Bundle size optimization**: Removed unused LinkedIn service files reducing build size
+- **Improved error handling**: Enhanced fallback mechanism for profile image loading
+
+### Technical Changes
+- Simplified `HeroSection` component to use direct environment variable or UI Avatars fallback
+- Removed `src/services/linkedin.ts` and related hooks to eliminate API dependency issues
+- Enhanced image error handling with proper fallback to generated avatar
+- Improved build performance by removing unused dependencies
+
+### 🔧 Performance Improvements
+- Reduced JavaScript bundle size by removing unused LinkedIn API integration
+- Faster page load with simplified profile image logic
+- More reliable image loading with proper fallback handling
+
+---
+
 ## [v1.3.0] - 2025-07-27
 
 ### 🐳 **Major Feature: Docker Containerization**
