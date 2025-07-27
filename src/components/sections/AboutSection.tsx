@@ -1,11 +1,14 @@
 import { useInView } from "react-intersection-observer";
-import { Download, FileText } from "lucide-react";
+import { Download, FileText, MapPin, Building } from "lucide-react";
+import { useLinkedInProfile } from "@/hooks/useLinkedInProfile";
 
 export const AboutSection = () => {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
+
+  const { data: linkedinProfile, isLoading: isLinkedInLoading } = useLinkedInProfile();
 
   const handleDownloadResume = (format: 'pdf' | 'txt') => {
     const link = document.createElement('a');
@@ -36,26 +39,40 @@ export const AboutSection = () => {
 
           <div className="portfolio-card max-w-3xl mx-auto">
             <div className="space-y-6">
+              {/* LinkedIn Profile Info */}
+              {!isLinkedInLoading && linkedinProfile && (
+                <div className="flex flex-col sm:flex-row gap-4 justify-center items-center text-sm text-muted-foreground mb-6">
+                  <div className="flex items-center gap-2">
+                    <Building className="w-4 h-4" />
+                    <span>{linkedinProfile.company}</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <MapPin className="w-4 h-4" />
+                    <span>{linkedinProfile.location}</span>
+                  </div>
+                </div>
+              )}
+
               <p className="text-lg leading-relaxed text-muted-foreground">
-                I'm Stav Lobel, a Software Engineer with over 5 years of experience crafting 
-                innovative solutions and building robust applications. My journey in technology 
-                began with a fascination for how code can transform ideas into reality, and 
+                I'm Stav Lobel, a Software Engineer with strong technical skills and a solid foundation 
+                in object-oriented programming, clean architecture, and scalable system design. My journey 
+                in technology began with a fascination for how code can transform ideas into reality, and 
                 that passion has only grown stronger with every project I've tackled.
               </p>
               
               <p className="text-lg leading-relaxed text-muted-foreground">
-                I specialize in modern web development with expertise in React, TypeScript, 
-                Node.js, and cloud technologies. My approach combines technical excellence 
-                with a deep understanding of user experience, ensuring that every application 
-                I build is not only powerful but also intuitive and delightful to use.
+                I specialize in developing tools and automation workflows across complex environments, 
+                with expertise in software engineering principles and modern development practices. My approach 
+                combines technical excellence with creative problem-solving, ensuring that every system 
+                I build is not only powerful but also maintainable and scalable.
               </p>
 
               <p className="text-lg leading-relaxed text-muted-foreground">
-                When I'm not immersed in code, you'll find me contributing to open-source 
-                projects, mentoring fellow developers, or exploring emerging technologies. 
-                I believe in the power of continuous learning and sharing knowledge within 
-                the developer community. Every challenge is an opportunity to grow, and every 
-                project is a chance to make a meaningful impact.
+                When I'm not immersed in code, you'll find me contributing to open-source projects, 
+                mentoring fellow developers, or exploring emerging technologies. I believe in the 
+                power of continuous learning and sharing knowledge within the developer community. 
+                Every challenge is an opportunity to grow, and every project is a chance to make 
+                a meaningful impact.
               </p>
 
               <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">

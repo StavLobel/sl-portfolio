@@ -1,39 +1,63 @@
 STAV LOBEL
-Full-Stack Software Engineer
+Software Engineer
 
 CONTACT
+Phone: 054-540-8113
 Email: stavlobel@gmail.com
 LinkedIn: linkedin.com/in/stavlobel
 GitHub: github.com/stavlobel
 Website: stavlobel.com
 
 SUMMARY
-Experienced Software Engineer with over 5 years of expertise in modern web development. 
-Specialized in React, TypeScript, Node.js, and cloud technologies. Passionate about 
-creating elegant, scalable solutions that deliver exceptional user experiences.
+Software Engineer with strong technical skills and a solid foundation in object-oriented 
+programming, clean architecture, and scalable system design. Experienced in developing 
+tools and automation workflows across complex environments. Creative problem-solver with 
+a passion for writing clean, maintainable code. Team player who thrives in collaborative, 
+fast-paced settings.
 
-TECHNICAL SKILLS
-• Frontend: React, TypeScript, JavaScript, HTML5, CSS3, Tailwind CSS
-• Backend: Node.js, Express, Python, FastAPI
-• Database: PostgreSQL, MongoDB, Redis
-• Cloud & DevOps: AWS, Docker, GitHub Actions, CI/CD
-• Tools: Git, VS Code, Postman, Figma
+PROFESSIONAL EXPERIENCE
 
-EXPERIENCE
-[To be filled with actual work experience]
+Automation Developer | 2023-Present
+REE Automotive
+• Developed modular automation scripts to validate complex protocols, following object-oriented 
+  and SOLID principles for maintainability and scalability
+• Utilized advanced testing frameworks to detect anomalies and ensure system accuracy
+• Built structured reports using modern templates and CI/CD automation pipelines
+• Emphasized clean code practices and comprehensive testing methodologies
+
+Automation Developer | 2021-2023
+Intel Corporation
+• Designed end-to-end test automation frameworks using object-oriented programming principles
+• Developed CI/CD pipelines for software integration across multiple platforms
+• Automated API validations and hardware-software interface testing
+• Emphasized clean code practices, reusability, and peer code reviews
 
 EDUCATION
-[To be filled with educational background]
+SCE - Shamoon College of Engineering | 2017-2021
+B.Sc. in Software Engineering
+Honors Program: AI and Data Analysis Excellence Track
 
-PROJECTS
-[To be filled with notable projects]
+TECHNICAL PROFICIENCIES
+• Software Development
+• Test Automation
+• CI/CD Pipelines
+• Object-Oriented Programming
+• Clean Architecture
+• System Design
+• API Development
+• Version Control
+• Agile Methodologies
+• Problem Solving
 
-CERTIFICATIONS
-[To be filled with relevant certifications]
+PROJECTS & ACHIEVEMENTS
+• Developed real-time attention monitoring system for online learning at SCE
+• Contributed to open-source projects and developer community
+• Mentored fellow developers and shared knowledge
+• Continuous learning in emerging technologies
 
 LANGUAGES
 English (Native), Hebrew (Fluent)
 
 INTERESTS
 Open-source contribution, mentoring developers, emerging technologies, 
-clean code practices, user experience design 
+clean code practices, artificial intelligence, automation 

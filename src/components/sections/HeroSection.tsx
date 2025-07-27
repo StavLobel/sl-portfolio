@@ -54,14 +54,14 @@ export const HeroSection = () => {
                 Hi, I'm Stav
               </h1>
               <p className="hero-subtitle">
-                Full-Stack Software Engineer
+                Software Engineer & AI Innovator
               </p>
             </div>
             
             <p className="text-lg text-muted-foreground max-w-lg">
               I transform complex problems into elegant, scalable solutions. 
-              With expertise in modern web technologies and a passion for clean code, 
-              I build applications that users love and businesses rely on.
+              With expertise in software engineering and emerging technologies, 
+              I build intelligent systems that drive innovation and efficiency.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
