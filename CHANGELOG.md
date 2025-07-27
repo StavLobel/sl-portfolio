@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.2.1] - 2024-12-19
+
+### 🐛 Bug Fixes
+- **Project Badge Filtering**: Improved badge detection to show only technology badges
+  - Added comprehensive whitelist of 100+ programming languages, frameworks, and tools
+  - Excluded process/workflow badges like "Tests", "Code Quality", "Pre-commit", "Build Status"
+  - Enhanced pattern matching for technology variations (e.g., "Node.js" vs "nodejs")
+  - Filtered out non-technical badges (license, coverage, CI/CD indicators)
+
+### 🔧 Technical Details
+- Enhanced `extractBadgesFromReadme` method in GitHub service
+- Added sophisticated filtering logic with technology keyword matching
+- Improved badge parsing to focus on relevant technical stack information
+- Better handling of badge text normalization and pattern recognition
+
 ## [v1.2.0] - 2024-12-19
 
 ### ✨ New Features
