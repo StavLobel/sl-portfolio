@@ -1,6 +1,4 @@
 import { useInView } from "react-intersection-observer";
-import { useLinkedInProfile } from "@/hooks/useLinkedIn";
-import { Loader2 } from "lucide-react";
 
 export const HeroSection = () => {
   const { ref, inView } = useInView({
@@ -8,10 +6,9 @@ export const HeroSection = () => {
     triggerOnce: true,
   });
 
-  const { data: linkedinProfilePic, isLoading: isLinkedInLoading } = useLinkedInProfile();
-
-  // Use LinkedIn profile picture if available, otherwise fallback to initials
-  const profileImageSrc = linkedinProfilePic || 'https://ui-avatars.com/api/?name=Stav+Lobel&background=10b981&color=ffffff&size=320&bold=true&font-size=0.4';
+  // Use a reliable profile image - either from environment variable or fallback to professional avatar
+  const profileImageSrc = import.meta.env.VITE_LINKEDIN_PROFILE_PIC_URL || 
+    'https://ui-avatars.com/api/?name=Stav+Lobel&background=10b981&color=ffffff&size=320&bold=true&font-size=0.4';
 
   return (
     <section
@@ -26,22 +23,16 @@ export const HeroSection = () => {
           <div className={`flex justify-center md:justify-end ${inView ? "fade-in visible" : "fade-in"}`}>
             <div className="relative">
               <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl">
-                {isLinkedInLoading ? (
-                  <div className="w-full h-full flex items-center justify-center bg-muted">
-                    <Loader2 className="w-8 h-8 animate-spin text-primary" />
-                  </div>
-                ) : (
-                  <img
-                    src={profileImageSrc}
-                    alt="Stav Lobel"
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      // Fallback to initials if LinkedIn image fails to load
-                      const target = e.target as HTMLImageElement;
-                      target.src = 'https://ui-avatars.com/api/?name=Stav+Lobel&background=10b981&color=ffffff&size=320&bold=true&font-size=0.4';
-                    }}
-                  />
-                )}
+                <img
+                  src={profileImageSrc}
+                  alt="Stav Lobel"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback to initials if image fails to load
+                    const target = e.target as HTMLImageElement;
+                    target.src = 'https://ui-avatars.com/api/?name=Stav+Lobel&background=10b981&color=ffffff&size=320&bold=true&font-size=0.4';
+                  }}
+                />
               </div>
               <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-primary/20 to-transparent"></div>
             </div>
@@ -65,18 +56,18 @@ export const HeroSection = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-              <button 
-                onClick={() => document.getElementById("projects")?.scrollIntoView({ behavior: "smooth" })}
+              <a
+                href="#projects"
                 className="btn-primary"
               >
                 View My Work
-              </button>
-              <button 
-                onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-                className="px-6 py-3 rounded-lg border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+              </a>
+              <a
+                href="#contact"
+                className="btn-secondary"
               >
                 Get In Touch
-              </button>
+              </a>
             </div>
           </div>
         </div>

@@ -1,0 +1,11 @@
+Fix for Traefik Directory Permission Issue:
+==========================================
+
+Run this command instead:
+
+# Create Traefik directory with proper permissions
+sudo mkdir -p /var/www/traefik
+sudo chown -R $USER:$USER /var/www/traefik
+
+Then verify it worked:
+ls -la /var/www/

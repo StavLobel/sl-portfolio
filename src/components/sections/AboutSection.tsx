@@ -11,7 +11,7 @@ export const AboutSection = () => {
     const link = document.createElement('a');
     if (format === 'pdf') {
       link.href = '/stav-lobel-resume.pdf';
-      link.download = 'Stav_Lobel_Resume.pdf';
+    link.download = 'Stav_Lobel_Resume.pdf';
     } else {
       link.href = '/stav-lobel-resume.txt';
       link.download = 'Stav_Lobel_Resume.txt';
