@@ -133,13 +133,86 @@ class GitHubApiService {
       }
     }
 
-    // Limit to reasonable number and filter out generic badges
-    return badges
-      .filter(badge => 
-        !badge.text.toLowerCase().includes('license') &&
-        !badge.text.toLowerCase().includes('build') &&
-        badge.text.length > 2
-      )
+    // Comprehensive technology whitelist
+    const technologyKeywords = [
+      // Programming Languages
+      'python', 'javascript', 'typescript', 'java', 'c++', 'c#', 'go', 'rust', 'php', 'ruby', 'swift', 'kotlin', 'dart', 'scala', 'r', 'matlab', 'julia', 'perl', 'lua', 'elixir', 'erlang', 'haskell', 'clojure', 'f#', 'vb.net', 'objective-c', 'assembly',
+      
+      // Frontend Frameworks & Libraries
+      'react', 'vue', 'angular', 'svelte', 'next.js', 'nuxt.js', 'gatsby', 'ember', 'backbone', 'jquery', 'alpine.js', 'stimulus', 'lit', 'stencil', 'preact', 'solid.js',
+      
+      // Backend Frameworks
+      'node.js', 'express', 'fastapi', 'django', 'flask', 'rails', 'laravel', 'spring', 'asp.net', 'gin', 'fiber', 'actix', 'rocket', 'sinatra', 'phoenix', 'nest.js', 'koa', 'hapi',
+      
+      // Databases
+      'postgresql', 'mysql', 'mongodb', 'redis', 'sqlite', 'oracle', 'mariadb', 'cassandra', 'dynamodb', 'firestore', 'firebase', 'supabase', 'cockroachdb', 'neo4j', 'influxdb', 'elasticsearch', 'couchdb',
+      
+      // Cloud & DevOps
+      'aws', 'azure', 'gcp', 'docker', 'kubernetes', 'terraform', 'ansible', 'jenkins', 'gitlab', 'github actions', 'circleci', 'travis', 'heroku', 'vercel', 'netlify', 'cloudflare', 'digitalocean', 'vagrant',
+      
+      // Testing Frameworks
+      'pytest', 'jest', 'mocha', 'chai', 'jasmine', 'cypress', 'selenium', 'playwright', 'puppeteer', 'junit', 'testng', 'rspec', 'phpunit', 'karma', 'protractor', 'webdriver',
+      
+      // Mobile Development
+      'react native', 'flutter', 'ionic', 'xamarin', 'cordova', 'phonegap', 'titanium', 'nativescript',
+      
+      // CSS & Styling
+      'css', 'sass', 'scss', 'less', 'stylus', 'tailwind', 'bootstrap', 'material-ui', 'chakra ui', 'styled-components', 'emotion', 'postcss',
+      
+      // Build Tools & Package Managers
+      'webpack', 'vite', 'rollup', 'parcel', 'gulp', 'grunt', 'npm', 'yarn', 'pnpm', 'pip', 'composer', 'maven', 'gradle', 'cargo', 'go mod', 'nuget',
+      
+      // Data Science & ML
+      'pandas', 'numpy', 'tensorflow', 'pytorch', 'scikit-learn', 'keras', 'opencv', 'matplotlib', 'seaborn', 'plotly', 'jupyter', 'anaconda', 'spark', 'hadoop',
+      
+      // Game Development
+      'unity', 'unreal', 'godot', 'phaser', 'pygame', 'libgdx', 'cocos2d', 'babylonjs', 'threejs',
+      
+      // APIs & Protocols
+      'rest', 'graphql', 'grpc', 'websocket', 'soap', 'oauth', 'jwt', 'api', 'json', 'xml', 'yaml', 'protobuf',
+      
+      // Version Control & Code Quality
+      'git', 'svn', 'mercurial', 'eslint', 'prettier', 'black', 'pylint', 'sonarqube', 'codecov',
+      
+      // Other Technologies
+      'electron', 'tauri', 'cordova', 'pwa', 'webassembly', 'blockchain', 'solidity', 'web3', 'ipfs', 'linux', 'windows', 'macos', 'ubuntu', 'debian', 'centos', 'alpine'
+    ];
+
+    // Filter badges to only include technologies
+    const filteredBadges = badges.filter(badge => {
+      const text = badge.text.toLowerCase();
+      
+      // Exclude common non-technology badges
+      const excludePatterns = [
+        'license', 'build', 'status', 'test', 'tests', 'testing', 'coverage', 'quality', 'style', 
+        'commit', 'pre-commit', 'workflow', 'action', 'deployment', 'deploy', 'release', 
+        'version', 'downloads', 'stars', 'forks', 'issues', 'pull request', 'pr', 'ci', 'cd',
+        'pipeline', 'automated', 'automation', 'check', 'lint', 'format', 'docs', 'documentation',
+        'security', 'vulnerability', 'audit', 'compliance', 'maintained', 'maintenance',
+        'stable', 'beta', 'alpha', 'experimental', 'deprecated', 'archived'
+      ];
+      
+      // Check if badge contains excluded patterns
+      const isExcluded = excludePatterns.some(pattern => text.includes(pattern));
+      if (isExcluded) return false;
+      
+      // Check if badge matches technology keywords
+      const isTechnology = technologyKeywords.some(tech => {
+        // Handle variations like "Node.js" vs "nodejs", "React Native" vs "react-native"
+        const normalizedTech = tech.replace(/[.\s-]/g, '');
+        const normalizedText = text.replace(/[.\s-]/g, '');
+        return normalizedText.includes(normalizedTech) || normalizedTech.includes(normalizedText);
+      });
+      
+      // Also include badges that are clearly version numbers or programming languages
+      const isVersionOrLang = /^(v?\d+\.\d+|[a-z]+\s*(v?\d+)?|\w+\s*\d+(\.\d+)*)$/i.test(text);
+      
+      return isTechnology || isVersionOrLang;
+    });
+
+    // Limit to reasonable number and ensure minimum length
+    return filteredBadges
+      .filter(badge => badge.text.length > 1)
       .slice(0, 8);
   }
 
