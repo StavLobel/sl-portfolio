@@ -1,5 +1,5 @@
 import { useInView } from "react-intersection-observer";
-import { Download } from "lucide-react";
+import { Download, FileText } from "lucide-react";
 
 export const AboutSection = () => {
   const { ref, inView } = useInView({
@@ -7,11 +7,15 @@ export const AboutSection = () => {
     triggerOnce: true,
   });
 
-  const handleDownloadResume = () => {
-    // Mock download functionality
+  const handleDownloadResume = (format: 'pdf' | 'txt') => {
     const link = document.createElement('a');
-    link.href = '/placeholder-resume.pdf';
-    link.download = 'Stav_Lobel_Resume.pdf';
+    if (format === 'pdf') {
+      link.href = '/stav-lobel-resume.pdf';
+      link.download = 'Stav_Lobel_Resume.pdf';
+    } else {
+      link.href = '/stav-lobel-resume.txt';
+      link.download = 'Stav_Lobel_Resume.txt';
+    }
     link.click();
   };
 
@@ -33,26 +37,41 @@ export const AboutSection = () => {
           <div className="portfolio-card max-w-3xl mx-auto">
             <div className="space-y-6">
               <p className="text-lg leading-relaxed text-muted-foreground">
-                I'm a passionate Software Engineer with a love for creating elegant solutions 
-                to complex problems. With expertise in modern web technologies and a keen eye 
-                for design, I build applications that are not only functional but also beautiful 
-                and user-friendly.
+                I'm Stav Lobel, a Software Engineer with over 5 years of experience crafting 
+                innovative solutions and building robust applications. My journey in technology 
+                began with a fascination for how code can transform ideas into reality, and 
+                that passion has only grown stronger with every project I've tackled.
               </p>
               
               <p className="text-lg leading-relaxed text-muted-foreground">
-                When I'm not coding, you can find me exploring new technologies, contributing 
-                to open-source projects, or sharing knowledge with the developer community. 
-                I believe in continuous learning and staying at the forefront of technological 
-                innovation.
+                I specialize in modern web development with expertise in React, TypeScript, 
+                Node.js, and cloud technologies. My approach combines technical excellence 
+                with a deep understanding of user experience, ensuring that every application 
+                I build is not only powerful but also intuitive and delightful to use.
               </p>
 
-              <div className="pt-6">
+              <p className="text-lg leading-relaxed text-muted-foreground">
+                When I'm not immersed in code, you'll find me contributing to open-source 
+                projects, mentoring fellow developers, or exploring emerging technologies. 
+                I believe in the power of continuous learning and sharing knowledge within 
+                the developer community. Every challenge is an opportunity to grow, and every 
+                project is a chance to make a meaningful impact.
+              </p>
+
+              <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">
                 <button
-                  onClick={handleDownloadResume}
+                  onClick={() => handleDownloadResume('pdf')}
                   className="btn-primary inline-flex items-center gap-2"
                 >
                   <Download className="w-4 h-4" />
-                  Download Resume
+                  Download Resume (PDF)
+                </button>
+                <button
+                  onClick={() => handleDownloadResume('txt')}
+                  className="px-6 py-3 rounded-lg border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 inline-flex items-center gap-2"
+                >
+                  <FileText className="w-4 h-4" />
+                  Download Resume (TXT)
                 </button>
               </div>
             </div>

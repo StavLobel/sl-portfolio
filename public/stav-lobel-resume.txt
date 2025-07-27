@@ -1,0 +1,39 @@
+STAV LOBEL
+Full-Stack Software Engineer
+
+CONTACT
+Email: stavlobel@gmail.com
+LinkedIn: linkedin.com/in/stavlobel
+GitHub: github.com/stavlobel
+Website: stavlobel.com
+
+SUMMARY
+Experienced Software Engineer with over 5 years of expertise in modern web development. 
+Specialized in React, TypeScript, Node.js, and cloud technologies. Passionate about 
+creating elegant, scalable solutions that deliver exceptional user experiences.
+
+TECHNICAL SKILLS
+• Frontend: React, TypeScript, JavaScript, HTML5, CSS3, Tailwind CSS
+• Backend: Node.js, Express, Python, FastAPI
+• Database: PostgreSQL, MongoDB, Redis
+• Cloud & DevOps: AWS, Docker, GitHub Actions, CI/CD
+• Tools: Git, VS Code, Postman, Figma
+
+EXPERIENCE
+[To be filled with actual work experience]
+
+EDUCATION
+[To be filled with educational background]
+
+PROJECTS
+[To be filled with notable projects]
+
+CERTIFICATIONS
+[To be filled with relevant certifications]
+
+LANGUAGES
+English (Native), Hebrew (Fluent)
+
+INTERESTS
+Open-source contribution, mentoring developers, emerging technologies, 
+clean code practices, user experience design 
