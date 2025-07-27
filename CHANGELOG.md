@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [v1.2.1] - 2024-12-19
+## [v1.2.1] - 2025-07-27
 
 ### 🐛 Bug Fixes
 - **Project Badge Filtering**: Improved badge detection to show only technology badges
@@ -17,7 +17,7 @@ All notable changes to this project will be documented in this file.
 - Improved badge parsing to focus on relevant technical stack information
 - Better handling of badge text normalization and pattern recognition
 
-## [v1.2.0] - 2024-12-19
+## [v1.2.0] - 2025-07-27
 
 ### ✨ New Features
 - **Resume Download Functionality**: Added ability to download resume in both PDF and TXT formats
@@ -45,7 +45,7 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [v1.1.0] - 2024-12-19
+## [v1.1.0] - 2025-07-27
 
 ### ✨ New Features
 - **GitHub API Integration**: Automatic fetching of project data from GitHub repositories
@@ -89,7 +89,7 @@ All notable changes to this project will be documented in this file.
 
 ---
 
-## [v1.0.0] - 2024-12-19
+## [v1.0.0] - 2025-07-27
 
 ### 🎉 Initial Release
 - **Portfolio Website**: Single-page React application with modern design
