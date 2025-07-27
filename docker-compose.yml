@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  portfolio-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: sl-portfolio-dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_GITHUB_TOKEN=${VITE_GITHUB_TOKEN}
+      - VITE_GITHUB_USERNAME=${VITE_GITHUB_USERNAME}
+      - VITE_LINKEDIN_PROFILE_PIC_URL=${VITE_LINKEDIN_PROFILE_PIC_URL}
+    env_file:
+      - .env.local
+    restart: unless-stopped
+    networks:
+      - portfolio-network
+
+networks:
+  portfolio-network:
+    driver: bridge 

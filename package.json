@@ -15,7 +15,15 @@
     "version:patch": "npm version patch && git push origin main && git push origin --tags",
     "version:minor": "npm version minor && git push origin main && git push origin --tags",
     "version:major": "npm version major && git push origin main && git push origin --tags",
-    "deploy:vps": "./scripts/deploy-vps.sh"
+    "deploy:vps": "./scripts/deploy-vps.sh",
+    "docker:build": "docker build -t sl-portfolio:latest .",
+    "docker:build-dev": "docker build -f Dockerfile.dev -t sl-portfolio:dev .",
+    "docker:dev": "docker-compose up -d",
+    "docker:dev-stop": "docker-compose down",
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up -d",
+    "docker:prod-stop": "docker-compose -f docker-compose.prod.yml down",
+    "docker:logs": "docker logs sl-portfolio-prod",
+    "docker:logs-dev": "docker logs sl-portfolio-dev"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.1.0",

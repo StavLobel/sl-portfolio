@@ -1,4 +1,4 @@
-name: Deploy to VPS
+name: Deploy Docker to VPS
 
 on:
   push:
@@ -13,64 +13,25 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
+    - name: Setup Docker Buildx
+      uses: docker/setup-buildx-action@v3
       
-    - name: Run tests and linting
+    - name: Build Docker image
       run: |
-        npm run type-check
-        npm run lint
+        docker build -t sl-portfolio:latest .
+        docker save sl-portfolio:latest | gzip > sl-portfolio.tar.gz
         
-    - name: Build production
-      run: npm run build
-      env:
-        VITE_GITHUB_USERNAME: ${{ secrets.VITE_GITHUB_USERNAME }}
-        VITE_GITHUB_TOKEN: ${{ secrets.VITE_GITHUB_TOKEN }}
-        VITE_GITHUB_EXCLUDE_REPOS: ${{ secrets.VITE_GITHUB_EXCLUDE_REPOS }}
-        VITE_LINKEDIN_PROFILE_PIC_URL: ${{ secrets.VITE_LINKEDIN_PROFILE_PIC_URL }}
-        
-    - name: Deploy to VPS
-      uses: appleboy/ssh-action@v1.0.3
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        port: ${{ secrets.VPS_PORT }}
-        script: |
-          # Stop any running processes
-          pm2 stop portfolio || true
-          pm2 delete portfolio || true
-          
-          # Navigate to app directory
-          cd /var/www/portfolio
-          
-          # Backup current version
-          if [ -d "live" ]; then
-            mkdir -p backups
-            cp -r live backups/backup-$(date +%Y%m%d-%H%M%S)
-          fi
-          
-          # Create new deployment directory
-          mkdir -p temp
-          
-    - name: Upload files to VPS
+    - name: Upload Docker image to VPS
       uses: appleboy/scp-action@v0.1.7
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
         port: ${{ secrets.VPS_PORT }}
-        source: "dist/*"
-        target: "/var/www/portfolio/temp"
-        strip_components: 1
+        source: "sl-portfolio.tar.gz,docker-compose.prod.yml"
+        target: "/var/www/portfolio/"
         
-    - name: Finalize deployment
+    - name: Deploy Docker container
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.VPS_HOST }}
@@ -80,21 +41,43 @@ jobs:
         script: |
           cd /var/www/portfolio
           
-          # Replace current deployment
-          rm -rf live
-          mv temp live
+          # Load the new Docker image
+          docker load < sl-portfolio.tar.gz
           
-          # Set proper permissions
-          sudo chown -R stavlobel:stavlobel /var/www/portfolio
-          chmod -R 755 live
+          # Backup current deployment info
+          if docker ps -q -f name=sl-portfolio-prod; then
+            echo "Backing up current container..."
+            docker tag sl-portfolio:latest sl-portfolio:backup-$(date +%Y%m%d-%H%M%S) || true
+          fi
           
-          # Restart Nginx
-          sudo systemctl reload nginx
+          # Stop and remove existing container
+          docker-compose -f docker-compose.prod.yml down || true
           
-          # Start PM2 process (if using Node.js server)
-          # pm2 start /var/www/portfolio/live/server.js --name portfolio
+          # Clean up old images (keep last 2)
+          docker images sl-portfolio --format "table {{.Repository}}\t{{.Tag}}\t{{.ID}}" | grep -E "(backup-|latest)" | tail -n +3 | awk '{print $3}' | xargs docker rmi || true
           
-          # Clean up old backups (keep last 3)
-          ls -t backups/backup-* 2>/dev/null | tail -n +4 | xargs rm -rf || true
+          # Start new container
+          docker-compose -f docker-compose.prod.yml up -d
           
-          echo "Deployment completed successfully!"
+          # Wait for container to be healthy
+          echo "Waiting for container to be healthy..."
+          timeout 60 bash -c 'until docker ps -q -f name=sl-portfolio-prod -f health=healthy | grep -q .; do sleep 2; done' || {
+            echo "Container failed to start properly"
+            docker logs sl-portfolio-prod
+            exit 1
+          }
+          
+          # Test the deployment
+          sleep 5
+          if curl -f http://localhost:3001/health; then
+            echo "✅ Deployment successful! Portfolio is running on port 3001"
+          else
+            echo "❌ Deployment failed - health check failed"
+            docker logs sl-portfolio-prod
+            exit 1
+          fi
+          
+          # Clean up uploaded tar file
+          rm -f sl-portfolio.tar.gz
+          
+          echo "🚀 Docker deployment completed successfully!" 
