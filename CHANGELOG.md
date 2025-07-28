@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.2] - 2025-07-28
+
+### 🎨 **UI/UX Improvements**
+
+**Enhanced Visual Design and Deployment Workflow**
+
+### ✨ New Features
+- **Updated deployment workflow**: Fixed version number in GitHub Actions to match package.json
+- **Improved badge visibility**: Changed technology badge text color from white to black for better readability
+- **Simplified footer**: Removed deployment timestamp, keeping only version number for cleaner appearance
+
+### 🔧 Technical Changes
+- Updated GitHub Actions workflow to use correct version (1.3.2) in build arguments
+- Modified tech-badge CSS styling to use black text (`color: #000000`) instead of white
+- Simplified Footer component to display only version number without deployment timestamp
+- Updated package.json version from 1.3.1 to 1.3.2
+
+### 🎯 User Experience
+- **Better badge readability**: Technology badges now have black text on green background for improved contrast
+- **Cleaner footer**: Simplified version display without cluttering timestamp information
+- **Consistent versioning**: Deployment workflow now properly reflects the current version
+
+---
+
 ## [v1.3.1] - 2025-07-27
 
 ### 🐛 **Bug Fixes**
