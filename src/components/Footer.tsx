@@ -12,7 +12,7 @@ export const Footer = () => {
             © {new Date().getFullYear()} Stav Lobel. All rights reserved.
           </p>
           <p className="text-xs text-muted-foreground/70">
-            v{packageJson.version}
+            v{packageJson.version} - Deployed: {new Date().toISOString().split('T')[0]}
           </p>
         </div>
       </div>
