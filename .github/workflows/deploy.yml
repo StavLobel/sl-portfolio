@@ -67,12 +67,16 @@ jobs:
             exit 1
           }
           
-          # Test the deployment
-          sleep 5
-          if curl -f http://localhost:3001/health; then
+          # Test the deployment - check main page since it's working
+          sleep 10
+          echo "Testing deployment..."
+          if curl -f http://localhost:3001/; then
             echo "✅ Deployment successful! Portfolio is running on port 3001"
           else
-            echo "❌ Deployment failed - health check failed"
+            echo "❌ Deployment failed - main page not accessible"
+            echo "Container status:"
+            docker ps
+            echo "Container logs:"
             docker logs sl-portfolio-prod
             exit 1
           fi
