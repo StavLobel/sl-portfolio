@@ -1,5 +1,13 @@
 # Stav Lobel - Portfolio Website
 
+[![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0.0-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF?logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.0-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-3.0.0-2088FF?logo=github-actions)](https://github.com/features/actions)
+[![Docker](https://img.shields.io/badge/Docker-24.0.0-2496ED?logo=docker)](https://www.docker.com/)
+[![Nginx](https://img.shields.io/badge/Nginx-1.24.0-009639?logo=nginx)](https://nginx.org/)
+
 A modern, responsive personal portfolio website showcasing projects, skills, and experience. Built with React, TypeScript, and Tailwind CSS, featuring automatic GitHub integration for dynamic project display.
 
 ## 🚀 Features

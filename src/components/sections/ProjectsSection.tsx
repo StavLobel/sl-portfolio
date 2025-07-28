@@ -45,7 +45,9 @@ export const ProjectsSection = () => {
                   <h3 className="text-lg font-semibold text-destructive">Failed to load projects</h3>
                   <p className="text-muted-foreground max-w-md">{error}</p>
                   <p className="text-sm text-muted-foreground">
-                    Please ensure your GitHub token is configured correctly.
+                    {error.includes('token') || error.includes('rate limit') 
+                      ? 'GitHub API configuration issue. Showing sample projects instead.'
+                      : 'Please check your network connection and try again.'}
                   </p>
                 </div>
               </div>

@@ -39,6 +39,7 @@ jobs:
         username: ${{ secrets.VPS_USERNAME }}
         key: ${{ secrets.VPS_SSH_KEY }}
         port: ${{ secrets.VPS_PORT }}
+        envs: VITE_GITHUB_TOKEN,VITE_GITHUB_USERNAME,VITE_GITHUB_EXCLUDE_REPOS
         script: |
           cd /var/www/portfolio
           
@@ -75,6 +76,11 @@ jobs:
             echo "Note: sl-portfolio-prod container still exists, but continuing with deployment..."
             docker ps -a -f name=sl-portfolio-prod
           fi
+          
+          # Set environment variables for the deployment
+          export VITE_GITHUB_TOKEN="$VITE_GITHUB_TOKEN"
+          export VITE_GITHUB_USERNAME="$VITE_GITHUB_USERNAME"
+          export VITE_GITHUB_EXCLUDE_REPOS="$VITE_GITHUB_EXCLUDE_REPOS"
           
           # Start new container
           echo "Starting new container..."

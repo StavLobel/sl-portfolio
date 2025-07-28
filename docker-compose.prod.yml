@@ -11,6 +11,9 @@ services:
       - "3001:80"  # Use port 3001 for this project
     environment:
       - NODE_ENV=production
+      - VITE_GITHUB_TOKEN=${VITE_GITHUB_TOKEN}
+      - VITE_GITHUB_USERNAME=${VITE_GITHUB_USERNAME}
+      - VITE_GITHUB_EXCLUDE_REPOS=${VITE_GITHUB_EXCLUDE_REPOS}
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost/health"]

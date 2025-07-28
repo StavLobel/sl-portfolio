@@ -49,21 +49,29 @@ class GitHubApiService {
 
   async fetchRepositories(): Promise<GitHubRepository[]> {
     try {
+      console.log(`Fetching repositories for user: ${this.username}`);
+      console.log(`GitHub token configured: ${this.token ? 'Yes' : 'No'}`);
+      
       const repos = await this.makeRequest<GitHubRepository[]>(
         `/users/${this.username}/repos?sort=updated&per_page=100&type=public`
       );
 
+      console.log(`Found ${repos.length} total repositories`);
+
       // Apply filtering rules from our project standards
-      return repos.filter(repo => 
+      const filteredRepos = repos.filter(repo => 
         !repo.fork && 
         !this.excludedRepos.includes(repo.name) &&
         !repo.name.startsWith('.') &&
         !repo.archived &&
         !repo.disabled
       );
+
+      console.log(`After filtering: ${filteredRepos.length} repositories`);
+      return filteredRepos;
     } catch (error) {
       console.error('Failed to fetch repositories:', error);
-      return []; // Return empty array instead of throwing
+      throw error; // Re-throw to allow proper error handling
     }
   }
 
