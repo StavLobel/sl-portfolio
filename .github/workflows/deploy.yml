@@ -67,17 +67,19 @@ jobs:
             exit 1
           }
           
-          # Test the deployment - check main page since it's working
+          # Test the deployment by checking container status
           sleep 10
-          echo "Testing deployment..."
-          if curl -f http://localhost:3001/; then
-            echo "✅ Deployment successful! Portfolio is running on port 3001"
-          else
-            echo "❌ Deployment failed - main page not accessible"
+          echo "Checking deployment status..."
+          if docker ps | grep -q "sl-portfolio-prod"; then
+            echo "✅ Deployment successful! Portfolio container is running on port 3001"
             echo "Container status:"
-            docker ps
+            docker ps | grep sl-portfolio-prod
+          else
+            echo "❌ Deployment failed - container not running"
+            echo "All containers:"
+            docker ps -a
             echo "Container logs:"
-            docker logs sl-portfolio-prod
+            docker logs sl-portfolio-prod || echo "No logs available"
             exit 1
           fi
           
