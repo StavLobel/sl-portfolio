@@ -162,11 +162,22 @@
   }
   
   .btn-secondary {
-    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 px-6 py-3 rounded-lg font-medium transition-all duration-300 border border-border;
+    background-color: hsl(var(--secondary));
+    color: hsl(var(--secondary-foreground));
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    border: 1px solid hsl(var(--border));
     box-shadow: var(--shadow-card);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
   }
   
   .btn-secondary:hover {
+    background-color: hsl(var(--secondary) / 0.8);
     box-shadow: var(--shadow-elegant);
     transform: translateY(-2px);
   }
