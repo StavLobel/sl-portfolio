@@ -1,5 +1,5 @@
 import { useInView } from "react-intersection-observer";
-import { Download, FileText } from "lucide-react";
+import { Download } from "lucide-react";
 
 export const AboutSection = () => {
   const { ref, inView } = useInView({
@@ -7,15 +7,10 @@ export const AboutSection = () => {
     triggerOnce: true,
   });
 
-  const handleDownloadResume = (format: 'pdf' | 'txt') => {
+  const handleDownloadResume = () => {
     const link = document.createElement('a');
-    if (format === 'pdf') {
-      link.href = '/stav-lobel-resume.pdf';
+    link.href = '/stav-lobel-resume.pdf';
     link.download = 'Stav_Lobel_Resume.pdf';
-    } else {
-      link.href = '/stav-lobel-resume.txt';
-      link.download = 'Stav_Lobel_Resume.txt';
-    }
     link.click();
   };
 
@@ -58,20 +53,13 @@ export const AboutSection = () => {
                 that push the boundaries of what's possible.
               </p>
 
-              <div className="pt-6 flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="pt-6 flex justify-center">
                 <button
-                  onClick={() => handleDownloadResume('pdf')}
+                  onClick={handleDownloadResume}
                   className="btn-primary inline-flex items-center gap-2"
                 >
                   <Download className="w-4 h-4" />
                   Download Resume (PDF)
-                </button>
-                <button
-                  onClick={() => handleDownloadResume('txt')}
-                  className="px-6 py-3 rounded-lg border border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 inline-flex items-center gap-2"
-                >
-                  <FileText className="w-4 h-4" />
-                  Download Resume (TXT)
                 </button>
               </div>
             </div>

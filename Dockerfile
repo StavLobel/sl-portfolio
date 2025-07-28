@@ -2,6 +2,19 @@
 # Stage 1: Build the application
 FROM node:18-alpine AS builder
 
+# Build arguments
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+
+# Labels
+LABEL org.opencontainers.image.created="${BUILD_DATE}" \
+      org.opencontainers.image.version="${VERSION}" \
+      org.opencontainers.image.revision="${VCS_REF}" \
+      org.opencontainers.image.vendor="Stav Lobel" \
+      org.opencontainers.image.title="Portfolio Website" \
+      org.opencontainers.image.description="Personal portfolio website built with React and TypeScript"
+
 # Set working directory
 WORKDIR /app
 
