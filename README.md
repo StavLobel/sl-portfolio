@@ -43,15 +43,25 @@ A modern, responsive personal portfolio website showcasing projects, skills, and
    VITE_GITHUB_USERNAME=your_github_username
    VITE_GITHUB_TOKEN=your_github_token
    VITE_GITHUB_EXCLUDE_REPOS=.github,dotfiles
-   VITE_LINKEDIN_PROFILE_PIC_URL=your_linkedin_pic_url
    ```
 
-4. **Start development server**
+4. **Add your profile picture**
+   Place your profile picture in the `public/` directory as `profile-picture.jpg`:
+   ```bash
+   # Copy your profile picture to the public directory
+   cp your-profile-picture.jpg public/profile-picture.jpg
+   ```
+   Recommended specifications:
+   - Size: 400x400 pixels or larger
+   - Format: JPG, PNG, or WebP
+   - File size: Under 500KB
+
+5. **Start development server**
    ```bash
    npm run dev
    ```
 
-5. **Open your browser**
+6. **Open your browser**
    Navigate to `http://localhost:8080`
 
 ## 🔧 Development

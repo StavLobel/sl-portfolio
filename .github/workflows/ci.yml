@@ -34,5 +34,4 @@ jobs:
       env:
         VITE_GITHUB_USERNAME: stavlobel
         VITE_GITHUB_TOKEN: dummy_token
-        VITE_GITHUB_EXCLUDE_REPOS: .github,dotfiles
-        VITE_LINKEDIN_PROFILE_PIC_URL: https://example.com/image.jpg 
+        VITE_GITHUB_EXCLUDE_REPOS: .github,dotfiles 

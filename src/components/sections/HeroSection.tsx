@@ -1,14 +1,11 @@
 import { useInView } from "react-intersection-observer";
+import { profilePictureSrc, fallbackProfilePicture } from "../../assets";
 
 export const HeroSection = () => {
   const { ref, inView } = useInView({
     threshold: 0.1,
     triggerOnce: true,
   });
-
-  // Use a reliable profile image - either from environment variable or fallback to professional avatar
-  const profileImageSrc = import.meta.env.VITE_LINKEDIN_PROFILE_PIC_URL || 
-    'https://ui-avatars.com/api/?name=Stav+Lobel&background=10b981&color=ffffff&size=320&bold=true&font-size=0.4';
 
   return (
     <section
@@ -24,13 +21,13 @@ export const HeroSection = () => {
             <div className="relative">
               <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl">
                 <img
-                  src={profileImageSrc}
+                  src={profilePictureSrc}
                   alt="Stav Lobel"
                   className="w-full h-full object-cover"
                   onError={(e) => {
                     // Fallback to initials if image fails to load
                     const target = e.target as HTMLImageElement;
-                    target.src = 'https://ui-avatars.com/api/?name=Stav+Lobel&background=10b981&color=ffffff&size=320&bold=true&font-size=0.4';
+                    target.src = fallbackProfilePicture;
                   }}
                 />
               </div>
