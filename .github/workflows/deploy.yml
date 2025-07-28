@@ -18,7 +18,8 @@ jobs:
       
     - name: Build Docker image
       run: |
-        docker build -t sl-portfolio:latest .
+        # Build with both latest and commit SHA tags to force fresh build
+        docker build --no-cache -t sl-portfolio:latest -t sl-portfolio:${{ github.sha }} .
         docker save sl-portfolio:latest | gzip > sl-portfolio.tar.gz
         
     - name: Upload Docker image to VPS
@@ -41,8 +42,11 @@ jobs:
         script: |
           cd /var/www/portfolio
           
-          # Load the new Docker image
+          echo "Loading new Docker image..."
           docker load < sl-portfolio.tar.gz
+          
+          echo "Available Docker images after load:"
+          docker images sl-portfolio
           
           # Backup current deployment info
           if docker ps -q -f name=sl-portfolio-prod; then
@@ -53,8 +57,12 @@ jobs:
           # Stop and remove existing container
           docker-compose -f docker-compose.prod.yml down || true
           
-          # Clean up old images (keep last 2)
-          docker images sl-portfolio --format "table {{.Repository}}\t{{.Tag}}\t{{.ID}}" | grep -E "(backup-|latest)" | tail -n +3 | awk '{print $3}' | xargs docker rmi || true
+          # Force remove old sl-portfolio images to ensure fresh deployment
+          echo "Cleaning up old Docker images..."
+          docker images sl-portfolio --format "{{.ID}}" | head -5 | xargs docker rmi -f || true
+          
+          # Also prune Docker system cache
+          docker system prune -f || true
           
           # Start new container
           docker-compose -f docker-compose.prod.yml up -d
