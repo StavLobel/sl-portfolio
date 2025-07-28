@@ -1,6 +1,5 @@
 import { useInView } from "react-intersection-observer";
-import { fallbackProfilePicture } from "../../assets";
-import profilePictureUrl from "../../assets/profile-picture.jpg";
+import { fallbackProfilePicture, profilePictureSrc } from "../../assets";
 
 export const HeroSection = () => {
   const { ref, inView } = useInView({
@@ -22,7 +21,7 @@ export const HeroSection = () => {
             <div className="relative">
               <div className="w-80 h-80 rounded-full overflow-hidden border-4 border-primary/20 shadow-2xl">
                 <img
-                  src={profilePictureUrl}
+                  src={profilePictureSrc}
                   alt="Stav Lobel"
                   className="w-full h-full object-cover"
                   onError={(e) => {
