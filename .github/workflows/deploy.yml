@@ -54,8 +54,20 @@ jobs:
             docker tag sl-portfolio:latest sl-portfolio:backup-$(date +%Y%m%d-%H%M%S) || true
           fi
           
-          # Stop and remove existing container
+          # Stop and remove existing container - comprehensive cleanup
+          echo "Stopping and removing existing containers..."
           docker-compose -f docker-compose.prod.yml down || true
+          
+          # Force remove any existing sl-portfolio-prod container
+          if docker ps -a -q -f name=sl-portfolio-prod; then
+            echo "Found existing sl-portfolio-prod container, removing it..."
+            docker stop sl-portfolio-prod || true
+            docker rm -f sl-portfolio-prod || true
+          fi
+          
+          # Clean up any remaining sl-portfolio processes
+          echo "Cleaning up any remaining processes..."
+          docker ps -a | grep sl-portfolio | awk '{print $1}' | xargs docker rm -f || true
           
           # Force remove old sl-portfolio images to ensure fresh deployment
           echo "Cleaning up old Docker images..."
@@ -64,7 +76,16 @@ jobs:
           # Also prune Docker system cache
           docker system prune -f || true
           
+          # Verify no conflicting containers exist
+          echo "Verifying clean state..."
+          if docker ps -a -q -f name=sl-portfolio-prod; then
+            echo "ERROR: sl-portfolio-prod container still exists after cleanup!"
+            docker ps -a -f name=sl-portfolio-prod
+            exit 1
+          fi
+          
           # Start new container
+          echo "Starting new container..."
           docker-compose -f docker-compose.prod.yml up -d
           
           # Wait for container to be healthy
