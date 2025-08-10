@@ -17,7 +17,7 @@ jobs:
       uses: docker/setup-buildx-action@v3
       
     - name: Upload source code to VPS
-      uses: appleboy/scp-action@0.1.7
+      uses: appleboy/scp-action@v0.1.6
       with:
         host: ${{ secrets.VPS_HOST }}
         username: ${{ secrets.VPS_USERNAME }}
