@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 - **Container management**: Proper stop/remove/start sequence to ensure clean deployments
 - **Build process**: Added `--no-cache` flag to prevent using cached layers from previous builds
 - **Local scripts**: Updated `scripts/deploy-docker-setup.sh` to match the new workflow approach
+- **Version compatibility**: Fixed GitHub Actions version resolution issues for reliable deployments
 
 ### 🎯 Deployment Improvements
 - **Faster deployments**: Simplified workflow reduces deployment time and complexity
