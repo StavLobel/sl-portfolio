@@ -1,9 +1,13 @@
 # Stav Lobel - Portfolio Website
 
-[![React](https://img.shields.io/badge/React-18.2.0-61DAFB?logo=react)](https://reactjs.org/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0.0-3178C6?logo=typescript)](https://www.typescriptlang.org/)
-[![Vite](https://img.shields.io/badge/Vite-5.0.0-646CFF?logo=vite)](https://vitejs.dev/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.3.0-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![React](https://img.shields.io/badge/React-18.3.1-61DAFB?logo=react)](https://reactjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.6.2-3178C6?logo=typescript)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-5.4.10-646CFF?logo=vite)](https://vitejs.dev/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.14-38B2AC?logo=tailwind-css)](https://tailwindcss.com/)
+[![shadcn/ui](https://img.shields.io/badge/shadcn/ui-0.0.0-000000?logo=shadcn)](https://ui.shadcn.com/)
+[![Radix UI](https://img.shields.io/badge/Radix_UI-1.1.0-161618?logo=radix)](https://www.radix-ui.com/)
+[![PostCSS](https://img.shields.io/badge/PostCSS-8.4.49-DD3A0A?logo=postcss)](https://postcss.org/)
+[![ESLint](https://img.shields.io/badge/ESLint-9.15.0-4B32C3?logo=eslint)](https://eslint.org/)
 [![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-3.0.0-2088FF?logo=github-actions)](https://github.com/features/actions)
 [![Docker](https://img.shields.io/badge/Docker-24.0.0-2496ED?logo=docker)](https://www.docker.com/)
 [![Nginx](https://img.shields.io/badge/Nginx-1.24.0-009639?logo=nginx)](https://nginx.org/)
