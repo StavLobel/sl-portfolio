@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file.
 
+## [v1.3.4] - 2025-08-10
+
+### 🔧 **Deployment Fixes**
+
+**Fixed GitHub Actions deployment workflow and local deployment scripts**
+
+### ✨ What's Fixed
+- **Container recreation issues**: Fixed problem where old containers weren't being properly replaced
+- **Image caching problems**: Ensured fresh builds with `--no-cache` flag to prevent stale deployments
+- **Complex workflow logic**: Simplified deployment process by removing unnecessary docker-compose complexity
+- **Local deployment sync**: Updated local deployment script to match GitHub Actions workflow
+
+### 🔧 Technical Changes
+- **GitHub Actions workflow**: Streamlined to directly manage Docker containers instead of using docker-compose
+- **Container management**: Proper stop/remove/start sequence to ensure clean deployments
+- **Build process**: Added `--no-cache` flag to prevent using cached layers from previous builds
+- **Local scripts**: Updated `scripts/deploy-docker-setup.sh` to match the new workflow approach
+
+### 🎯 Deployment Improvements
+- **Faster deployments**: Simplified workflow reduces deployment time and complexity
+- **More reliable**: Direct container management eliminates docker-compose related issues
+- **Better debugging**: Clearer logs and verification steps in deployment process
+- **Consistent behavior**: Local and remote deployments now use the same approach
+
+---
+
 ## [v1.3.2] - 2025-07-28
 
 ### 🎨 **UI/UX Improvements**
