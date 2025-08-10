@@ -1,63 +1,72 @@
 STAV LOBEL
-Software Engineer
-
-CONTACT
-Phone: 054-540-8113
-Email: stavlobel@gmail.com
-LinkedIn: linkedin.com/in/stavlobel
-GitHub: github.com/stavlobel
-Website: stavlobel.com
+SOFTWARE ENGINEER
+stavlobel@gmail.com | +972-54-540-8113 | linkedin.com/in/stavlobel | github.com/StavLobel | stavlobel.com
 
 SUMMARY
-Software Engineer with strong technical skills and a solid foundation in object-oriented 
-programming, clean architecture, and scalable system design. Experienced in developing 
-tools and automation workflows across complex environments. Creative problem-solver with 
-a passion for writing clean, maintainable code. Team player who thrives in collaborative, 
-fast-paced settings.
+Software Engineer with a strong foundation in Python, automation, and scalable architecture. Experienced in
+developing robust QA automation frameworks using PyTest, Playwright, Selenium, and CI/CD pipelines.
+Passionate about clean code, OOP, and building tools that elevate software quality and team efficiency.
+
+TECHNICAL SKILLS
+Python
+PyTest
+OOP & SOLID
+FastAPI
+Docker
+HTML/CSS/JS
+
+CI/CD Pipelines
+Playwright
+TDD
+RESTful APIs
+Git & GitHub
+Firebase
+
+Selenium
+API Testing
+Allure Reports
+Unit & E2E Testing
+Test Strategy
+Automation Frameworks
+
+AI TOOLS
+ChatGPT
+GitHub Copilot
+Gemini
+
+Claude
+AI-Driven Development
+PyTorch
+
+TensorFlow
+OpenAI API
+Google Colab
 
 PROFESSIONAL EXPERIENCE
-
-Automation Developer | 2023-Present
-REE Automotive
-• Developed modular automation scripts to validate complex protocols, following object-oriented 
-  and SOLID principles for maintainability and scalability
-• Utilized advanced testing frameworks to detect anomalies and ensure system accuracy
-• Built structured reports using modern templates and CI/CD automation pipelines
-• Emphasized clean code practices and comprehensive testing methodologies
-
-Automation Developer | 2021-2023
-Intel Corporation
-• Designed end-to-end test automation frameworks using object-oriented programming principles
-• Developed CI/CD pipelines for software integration across multiple platforms
-• Automated API validations and hardware-software interface testing
-• Emphasized clean code practices, reusability, and peer code reviews
+Automation Developer, REE Automotive
+Mar 2023 – Jun 2025
+Developed Python-based automation suite for EV system validation over CAN bus, reducing manual
+testing time by 40% and enabling 24/7 unattended regression runs, improving defect detection rate
+by ~25%.
+Engineered multithreaded analyzer to detect cycle-time violations in real time, cutting analysis
+turnaround from hours to minutes, and integrated automated HTML reporting into Git-based CI/CD,
+accelerating release readiness checks by 30%.
+Integrated PyTest frameworks for functional and UI testing across systems.
+Improved development velocity by applying clean architecture, OOP, and CI/CD via Bitbucket
+Pipelines.
+Aug 2021 – Mar 2023
+Automation Developer, Intel Corporation
+Led automation framework development for Thunderbolt validation using Robot Framework and
+Python, expanding automated coverage from 55% to 85%, reducing regression cycle from 3 days to
+under 1 day.
+Designed and optimized CI/CD pipelines (GitHub Actions, TeamCity) to support daily deployments,
+reducing build failures by 20% and cutting deployment times by 35%, improving developer
+productivity.
 
 EDUCATION
-SCE - Shamoon College of Engineering | 2017-2021
 B.Sc. in Software Engineering
-Honors Program: AI and Data Analysis Excellence Track
+2017-2021
+SCE – Shamoon College of Engineering
+Selected for the AI & Data Analysis excellence track, focused on advanced machine learning, datadriven systems, and real-world AI applications.
 
-TECHNICAL PROFICIENCIES
-• Software Development
-• Test Automation
-• CI/CD Pipelines
-• Object-Oriented Programming
-• Clean Architecture
-• System Design
-• API Development
-• Version Control
-• Agile Methodologies
-• Problem Solving
-
-PROJECTS & ACHIEVEMENTS
-• Developed real-time attention monitoring system for online learning at SCE
-• Contributed to open-source projects and developer community
-• Mentored fellow developers and shared knowledge
-• Continuous learning in emerging technologies
-
-LANGUAGES
-English (Native), Hebrew (Fluent)
-
-INTERESTS
-Open-source contribution, mentoring developers, emerging technologies, 
-clean code practices, artificial intelligence, automation 
+
